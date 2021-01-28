@@ -65,7 +65,7 @@ GLuint OSDVertexBuffer;
 volatile bool Rendering;
 
 
-bool Init(QOpenGLFunctions_3_2_Core* f)
+bool Init(QOpenGLExtraFunctions* f)
 {
     if (f)
     {
@@ -75,7 +75,6 @@ bool Init(QOpenGLFunctions_3_2_Core* f)
 
         GLuint pid = Shader->programId();
         f->glBindAttribLocation(pid, 0, "vPosition");
-        f->glBindFragDataLocation(pid, 0, "oColor");
 
         Shader->link();
 
@@ -110,7 +109,7 @@ bool Init(QOpenGLFunctions_3_2_Core* f)
     return true;
 }
 
-void DeInit(QOpenGLFunctions_3_2_Core* f)
+void DeInit(QOpenGLExtraFunctions* f)
 {
     for (auto it = ItemQueue.begin(); it != ItemQueue.end(); )
     {
@@ -342,7 +341,7 @@ void AddMessage(u32 color, const char* text)
     ItemQueue.push_back(item);
 }
 
-void Update(QOpenGLFunctions_3_2_Core* f)
+void Update(QOpenGLExtraFunctions* f)
 {
     if (!Config::ShowOSD)
     {
@@ -418,7 +417,7 @@ void DrawNative(QPainter& painter)
     Rendering = false;
 }
 
-void DrawGL(QOpenGLFunctions_3_2_Core* f, float w, float h)
+void DrawGL(QOpenGLExtraFunctions* f, float w, float h)
 {
     if (!Config::ShowOSD) return;
     if (!mainWindow || !mainWindow->panel) return;

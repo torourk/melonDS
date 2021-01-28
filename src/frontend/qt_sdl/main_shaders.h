@@ -19,7 +19,9 @@
 #ifndef MAIN_SHADERS_H
 #define MAIN_SHADERS_H
 
-const char* kScreenVS = R"(#version 140
+#define kShaderHeader "#version 300 es\nprecision mediump float;"
+
+const char* kScreenVS = kShaderHeader R"(
 
 uniform vec2 uScreenSize;
 uniform mat2x3 uTransform;
@@ -36,7 +38,7 @@ void main()
     fpos.xy = vec3(vPosition, 1.0) * uTransform;
 
     fpos.xy = ((fpos.xy * 2.0) / uScreenSize) - 1.0;
-    fpos.y *= -1;
+    fpos.y *= -1.0;
     fpos.z = 0.0;
     fpos.w = 1.0;
 
@@ -45,13 +47,13 @@ void main()
 }
 )";
 
-const char* kScreenFS = R"(#version 140
+const char* kScreenFS = kShaderHeader R"(
 
 uniform sampler2D ScreenTex;
 
 smooth in vec2 fTexcoord;
 
-out vec4 oColor;
+layout (location = 0) out vec4 oColor;
 
 void main()
 {
